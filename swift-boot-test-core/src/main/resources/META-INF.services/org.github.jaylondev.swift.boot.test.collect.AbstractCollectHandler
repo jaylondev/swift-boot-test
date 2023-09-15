@@ -1,0 +1,4 @@
+org.github.jaylondev.swift.boot.test.collect.handler.AdditionalClassCollectHandler
+org.github.jaylondev.swift.boot.test.collect.handler.ConfigClassCollectHandler
+org.github.jaylondev.swift.boot.test.collect.handler.IncludeComponentClassesCollectHandler
+org.github.jaylondev.swift.boot.test.collect.handler.ReferenceChainClassCollectHandler
