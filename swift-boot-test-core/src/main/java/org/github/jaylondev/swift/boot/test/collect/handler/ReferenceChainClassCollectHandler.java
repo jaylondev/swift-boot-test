@@ -23,27 +23,41 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
+ * 遍历收集到的单元测试中可能需要使用的类，进一步收集在这些类中通过@AutoWired注解引用的类
+ * 递归收集@AutoWired引用链上所有的类
+ * 如果某个类为interface接口，将一并收集该接口所有的实现类
  * @author jaylon 2023/9/12 22:41
  */
 @Slf4j
 public class ReferenceChainClassCollectHandler implements ICollectHandler {
-
+    /**
+     * /target目录下所有的class集合
+     */
     private final List<Class<?>> allTargetClasses = new ArrayList<>();
+    /**
+     * 已经被添加到类收集容器中的类
+     */
     private final List<Class<?>> processedClasses = new ArrayList<>();
 
     @Override
     public void collect(CollectContext collectContext) {
+        // 类收集容器
         Set<Class<?>> injectClassList = collectContext.getInjectClassList();
+        // 单元测试类
         Class<?> testClass = collectContext.getTestClass();
+        // 找到项目编译后/target目录下所有的class，便于收集某个interface的所有实现类
         this.initTargetAllClasses(testClass.getClassLoader());
+        // 遍历类收集器中所有的类，递归收集类中所有通过@AutoWired引用的类
         injectClassList.forEach(this::collectionClass);
         injectClassList.addAll(processedClasses);
     }
 
     public void collectionClass(Class<?> clazz) {
         if (clazz.isInterface()) {
+            // 收集接口类
             this.collectionInterfaceClass(clazz);
         } else {
+            // 收集实现类
             this.collectionImplClass(clazz);
         }
     }
@@ -56,6 +70,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         List<Field> fields = BeanUtils.getFieldIncludeSuper(clazz);
         for (Field field : fields) {
             Class<?> fieldType = field.getType();
+            // 收集类中所有的引用字段
             this.collectionFieldClass(field, fieldType);
         }
     }
@@ -67,6 +82,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         if (processedClasses.contains(clazz)) {
             return;
         }
+        // 如果引用字段类型为List<T>,则尝试收集List集合中的泛型类
         if (clazz.equals(List.class)) {
             try {
                 Type genericType = field.getGenericType();
@@ -84,7 +100,9 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
     }
 
     public void collectionInterfaceClass(Class<?> clazz) {
+        // 获取接口类的所有实现类
         List<Class<?>> interfaceImplClasses = this.getInterfaceImplClasses(clazz);
+        // 收集实现类
         interfaceImplClasses.forEach(this::collectionImplClass);
     }
 
@@ -101,6 +119,9 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         return allSubclass;
     }
 
+    /**
+     * 找到/tartget目录下所有的class，便于收集某个interface的所有实现类
+     */
     private void initTargetAllClasses(ClassLoader classLoader) {
        List<String> modules = this.getModuleNameList(classLoader);
        try {
@@ -135,8 +156,13 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
        }
     }
 
+    /**
+     * 获取所有的module全路径名
+     */
     private List<String> getModuleNameList(ClassLoader classLoader) {
+        // 应用启动类所在的module名
         String currentModule = Configurations.getInstance().getModuleName();
+        // 应用启动类所在的module全路径
         String testClassPath = Objects.requireNonNull(classLoader.getResource("")).getFile();
         List<String> modules = new ArrayList<>();
         modules.add(testClassPath);

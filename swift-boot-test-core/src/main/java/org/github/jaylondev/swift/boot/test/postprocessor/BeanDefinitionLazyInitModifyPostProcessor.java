@@ -13,11 +13,15 @@ import org.springframework.util.StringUtils;
 import java.util.List;
 
 /**
+ * 修改IOC容器中类的BeanDefinition对象懒加载属性
  * @author jaylon 2023/9/12 22:17
  */
 @Slf4j
 public class BeanDefinitionLazyInitModifyPostProcessor implements BeanDefinitionRegistryPostProcessor {
 
+    /**
+     * 将IOC中所有的类设置为懒加载模式
+     */
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         List<Class<?>> preparedModifyLazyInitLasses = TestClassContainer.getPreparedModifyLazyInitClasses();

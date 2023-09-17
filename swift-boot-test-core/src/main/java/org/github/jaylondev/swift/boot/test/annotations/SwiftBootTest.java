@@ -15,9 +15,17 @@ public @interface SwiftBootTest {
      * 目标类没有直接或间接注入但测试中需要实例化的类
      */
     Class<?>[] includeComponent() default {};
-
     /**
      * 不可声明为懒加载的类
      */
     Class<?>[] unLazyClasses() default {};
+    /**
+     * 是否连接数据库
+     */
+    boolean connectDataBase() default false;
+
+    /**
+     * 是否连接redis
+     */
+    boolean connectRedis() default false;
 }

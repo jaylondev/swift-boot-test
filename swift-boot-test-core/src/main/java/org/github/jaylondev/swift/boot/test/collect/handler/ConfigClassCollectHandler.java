@@ -2,8 +2,7 @@ package org.github.jaylondev.swift.boot.test.collect.handler;
 
 import org.github.jaylondev.swift.boot.test.collect.CollectContext;
 import org.github.jaylondev.swift.boot.test.collect.ICollectHandler;
-import org.github.jaylondev.swift.boot.test.config.Configurations;
-import org.github.jaylondev.swift.boot.test.config.DaoTestConfig;
+import org.github.jaylondev.swift.boot.test.config.DBTestConfig;
 import org.github.jaylondev.swift.boot.test.config.RedisTestConfig;
 import org.github.jaylondev.swift.boot.test.postprocessor.BeanDefinitionLazyInitModifyPostProcessor;
 
@@ -11,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * 配置类
+ * 配置类收集器
  * @author jaylon 2023/8/7 22:41
  */
 public class ConfigClassCollectHandler implements ICollectHandler {
@@ -23,12 +22,13 @@ public class ConfigClassCollectHandler implements ICollectHandler {
         if (!Objects.equals(Void.class, collectContext.getTargetClass())) {
             classListContailer.add(collectContext.getTargetClass());
         }
-        Configurations configurations = Configurations.getInstance();
-        if (configurations.isConnectRedis()) {
+        boolean connectDataBase = collectContext.getSwiftBootTest().connectDataBase();
+        boolean connectRedis = collectContext.getSwiftBootTest().connectRedis();
+        if (connectRedis) {
             classListContailer.add(RedisTestConfig.class);
         }
-        if (configurations.isConnectDataBase()) {
-            classListContailer.add(DaoTestConfig.class);
+        if (connectDataBase) {
+            classListContailer.add(DBTestConfig.class);
         }
     }
 

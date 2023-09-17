@@ -17,7 +17,6 @@ public class Configurations {
 
     private boolean prepared;
 
-    private boolean connectDataBase;
     private String dbHost;
     private Integer dbPort;
     private String database;
@@ -25,11 +24,15 @@ public class Configurations {
     private String dbPassWord;
     private String mapperLocation;
 
-    private boolean connectRedis;
     private String redisNodes;
     private String redisPassWord;
-
+    /**
+     * 应用启动类依赖的其他模块，如core、service、dao等，多个以英文,分隔
+     */
     private String dependencyModules;
+    /**
+     * 应用启动类的module模块名
+     */
     private String moduleName;
 
     private static final String TEST_PROPERTIES_FILE_NAME = "swiftBootTest.properties";
@@ -43,8 +46,6 @@ public class Configurations {
     public static final String REDIS_PASSWORD = "redis.password";
     public static final String DEPENDENCY_MODULES = "dependency.modules";
     public static final String MODULE_NAME = "module.name";
-    public static final String CONNECT_DATABASE = "connect.database";
-    public static final String CONNECT_REDIS = "connect.redis";
 
     private static Configurations INSTANCE;
 
@@ -73,9 +74,7 @@ public class Configurations {
                 this.database = properties.getProperty(DB_DATABASE);
                 this.dbPassWord = properties.getProperty(DB_PASSWORD);
                 this.dbUserName = properties.getProperty(DB_USERNAME);
-                this.connectDataBase = Boolean.parseBoolean(properties.getProperty(CONNECT_DATABASE));
                 this.mapperLocation = properties.getProperty(MAPPER_LOCATION);
-                this.connectRedis = Boolean.parseBoolean(properties.getProperty(CONNECT_REDIS));
                 this.redisNodes = properties.getProperty(REDIS_CLUSTER_NODES);
                 this.redisPassWord = properties.getProperty(REDIS_PASSWORD);
                 this.moduleName = properties.getProperty(MODULE_NAME);

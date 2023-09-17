@@ -36,6 +36,9 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
         return mcc;
     }
 
+    /**
+     * 处理单元测试需要的上下文环境
+     */
     private MergedContextConfiguration processSwiftBootTestContext(MergedContextConfiguration mcc,
                                                                    MergedContextConfiguration mergedConfig) {
         Class<?> testClass = mergedConfig.getTestClass();
@@ -90,6 +93,9 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
                 .collect(Collectors.toSet());
     }
 
+    /**
+     * 构建上下文对象
+     */
     private CollectContext buildCollectContext(Class<?> testClass) {
         SwiftBootTest swiftBootTest = testClass.getAnnotation(SwiftBootTest.class);
         Class<?> targetTestClass = this.getTargetTestClass(swiftBootTest);

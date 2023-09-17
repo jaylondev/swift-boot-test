@@ -7,7 +7,8 @@ import org.github.jaylondev.swift.boot.test.collect.ICollectHandler;
 import java.util.Arrays;
 
 /**
- * @author jaylon 2023/9/12 22:36
+ * 收集单元测试目标类没有直接或间接引用，但测试方法执行中需要用到的类
+ * 比如静态工具类
  */
 public class IncludeComponentClassesCollectHandler implements ICollectHandler {
 

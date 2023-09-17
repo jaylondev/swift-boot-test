@@ -17,10 +17,9 @@ import javax.sql.DataSource;
 /**
  * @author jaylon 2023/8/20 21:33
  */
-public class DaoTestConfig {
+public class DBTestConfig {
 
     private static final String DB_DRIVER_CLASS_NAME = "com.mysql.jdbc.Driver";
-
     @Bean
     public DataSource dataSource() {
         Configurations config = Configurations.getInstance();
