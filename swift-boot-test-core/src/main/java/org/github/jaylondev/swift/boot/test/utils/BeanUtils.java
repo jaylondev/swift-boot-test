@@ -36,7 +36,6 @@ public class BeanUtils {
     public static void fillDefaultValues(Object model) {
         try {
             for (PropertyDescriptor pd : PropertyUtils.getPropertyDescriptors(model)) {
-                String fieldName = pd.getName();
                 Class<?> clazz = pd.getPropertyType();
                 Method rm = pd.getReadMethod();
                 if (rm.invoke(model) == null) {
