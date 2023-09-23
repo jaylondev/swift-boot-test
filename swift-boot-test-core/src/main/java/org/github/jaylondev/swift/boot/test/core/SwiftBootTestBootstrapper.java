@@ -43,10 +43,13 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
                                                                    MergedContextConfiguration mergedConfig) {
         Class<?> testClass = mergedConfig.getTestClass();
         CollectContext collectContext = this.buildCollectContext(testClass);
+        // 收集执行本次单元测试需要使用的class
         Set<Class<?>> classes = this.removeUnnecessaryClass(ClassCollectService.collect(collectContext));
+        // 修改这些class引用字段的注解(设置required属性为false，添加@Lazy注解)
         this.modifyFieldAnnotation(classes);
         TestClassContainer.saveClasses(classes);
         TestClassContainer.saveTestClass(testClass);
+        // 将收集的执行本次单元测试需要使用的class替换到IOC容器中
         BeanUtils.reflectSet(mcc, "classes", classes.toArray(new Class<?>[]{}));
         return mcc;
     }
@@ -77,9 +80,15 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
         fields.forEach(this::setAutoWiredRequiredFalse);
     }
 
+    /**
+     * 移除不必要的类
+     */
     private Set<Class<?>> removeUnnecessaryClass(Set<Class<?>> classes) {
+        // SpringFramework包下的类
         Set<Class<?>> springframeworkClasses = this.getSpringframeworkClasses(classes);
+        // 抽象类
         Set<Class<?>> abstractClass = this.getAbstractClasses(classes);
+        // 匿名类
         Set<Class<?>> anonymousClasses = this.getAnonymousClasses(classes);
         classes.removeAll(springframeworkClasses);
         classes.removeAll(abstractClass);

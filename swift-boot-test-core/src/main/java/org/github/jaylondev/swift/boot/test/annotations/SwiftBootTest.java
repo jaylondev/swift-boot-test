@@ -2,6 +2,9 @@ package org.github.jaylondev.swift.boot.test.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * 用于标记单元测试类
+ */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented

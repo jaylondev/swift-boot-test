@@ -49,6 +49,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         this.initTargetAllClasses(testClass.getClassLoader());
         // 遍历类收集器中所有的类，递归收集类中所有通过@AutoWired引用的类
         injectClassList.forEach(this::collectionClass);
+        // 将收集到的class放入类收集容器中
         injectClassList.addAll(processedClasses);
     }
 
@@ -106,6 +107,9 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         interfaceImplClasses.forEach(this::collectionImplClass);
     }
 
+    /**
+     * 获取接口所有的实现类
+     */
     private List<Class<?>> getInterfaceImplClasses(Class<?> interfaceClass) {
         if (interfaceClass == Logger.class) {
             return Collections.emptyList();
