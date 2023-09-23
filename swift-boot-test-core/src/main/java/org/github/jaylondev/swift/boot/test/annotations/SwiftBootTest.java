@@ -19,13 +19,4 @@ public @interface SwiftBootTest {
      * 不可声明为懒加载的类
      */
     Class<?>[] unLazyClasses() default {};
-    /**
-     * 是否连接数据库
-     */
-    boolean connectDataBase() default false;
-
-    /**
-     * 是否连接redis
-     */
-    boolean connectRedis() default false;
 }

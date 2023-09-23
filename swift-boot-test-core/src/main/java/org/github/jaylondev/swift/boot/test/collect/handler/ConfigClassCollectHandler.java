@@ -2,8 +2,6 @@ package org.github.jaylondev.swift.boot.test.collect.handler;
 
 import org.github.jaylondev.swift.boot.test.collect.CollectContext;
 import org.github.jaylondev.swift.boot.test.collect.ICollectHandler;
-import org.github.jaylondev.swift.boot.test.config.DBTestConfig;
-import org.github.jaylondev.swift.boot.test.config.RedisTestConfig;
 import org.github.jaylondev.swift.boot.test.postprocessor.BeanDefinitionLazyInitModifyPostProcessor;
 
 import java.util.Objects;
@@ -21,14 +19,6 @@ public class ConfigClassCollectHandler implements ICollectHandler {
         classListContailer.add(BeanDefinitionLazyInitModifyPostProcessor.class);
         if (!Objects.equals(Void.class, collectContext.getTargetClass())) {
             classListContailer.add(collectContext.getTargetClass());
-        }
-        boolean connectDataBase = collectContext.getSwiftBootTest().connectDataBase();
-        boolean connectRedis = collectContext.getSwiftBootTest().connectRedis();
-        if (connectRedis) {
-            classListContailer.add(RedisTestConfig.class);
-        }
-        if (connectDataBase) {
-            classListContailer.add(DBTestConfig.class);
         }
     }
 
