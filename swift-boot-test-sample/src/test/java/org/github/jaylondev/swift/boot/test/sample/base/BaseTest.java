@@ -1,0 +1,13 @@
+package org.github.jaylondev.swift.boot.test.sample.base;
+
+import org.github.jaylondev.swift.boot.test.SupperSwiftBootTest;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.test.context.TestPropertySource;
+
+/**
+ * @author jaylon 2023/10/22 11:23
+ */
+@TestPropertySource(value = {"classpath:/config/application-native.properties"})
+@EnableConfigurationProperties
+public class BaseTest extends SupperSwiftBootTest {
+}

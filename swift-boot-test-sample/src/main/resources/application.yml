@@ -1,6 +1,8 @@
 server:
-  port: 8085
+  port: ${api.server.port}
 spring:
+  profiles:
+    active: native
   http:
     encoding:
       charset: UTF-8

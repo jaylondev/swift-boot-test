@@ -1,6 +1,5 @@
 package org.github.jaylondev.swift.boot.test.collect.handler;
 
-import jdk.internal.org.jline.utils.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.github.jaylondev.swift.boot.test.collect.CollectContext;
 import org.github.jaylondev.swift.boot.test.collect.ICollectHandler;
@@ -93,7 +92,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
                     this.collectionClass(clazz);
                 }
             } catch (Exception e) {
-                Log.warn("[SwiftBootTest]-[List<> class generic type analysis error field:{}]", field);
+                log.warn("[SwiftBootTest]-[List<> class generic type analysis error field:{}]", field);
             }
             return;
         }
