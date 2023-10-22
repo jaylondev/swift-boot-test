@@ -77,7 +77,7 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
     }
 
     private void setAutoWiredRequiredFalse(List<Field> fields) {
-        fields.forEach(this::setAutoWiredRequiredFalse);
+         fields.forEach(this::setAutoWiredRequiredFalse);
     }
 
     /**

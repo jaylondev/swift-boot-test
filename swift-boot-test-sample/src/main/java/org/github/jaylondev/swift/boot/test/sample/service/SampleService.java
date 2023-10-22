@@ -4,6 +4,7 @@ import org.github.jaylondev.swift.boot.test.sample.dao.SampleRepositoryA;
 import org.github.jaylondev.swift.boot.test.sample.dto.resp.SampleResp;
 import org.github.jaylondev.swift.boot.test.sample.service.biz.BizServiceA;
 import org.github.jaylondev.swift.boot.test.sample.service.biz.BizServiceB;
+import org.github.jaylondev.swift.boot.test.sample.service.biz.BizServiceC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,10 @@ public class SampleService {
     @Autowired
     private BizServiceB bizServiceB;
     @Autowired
+    private BizServiceC bizServiceC;
+    @Autowired
     private SampleRepositoryA repositoryA;
+
 
     public SampleResp sampleGet(String reqStr) {
         // 执行业务服务A
