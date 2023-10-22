@@ -57,7 +57,7 @@ public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
     private void modifyFieldAnnotation(Set<Class<?>> classes) {
         for (Class<?> clazz : classes) {
             List<Field> fields = BeanUtils.getFieldIncludeSuper(clazz);
-            this.setAutoWiredRequiredFalse(fields);
+            // this.setAutoWiredRequiredFalse(fields);
             this.addLazyAnnotation(clazz, fields);
         }
     }
