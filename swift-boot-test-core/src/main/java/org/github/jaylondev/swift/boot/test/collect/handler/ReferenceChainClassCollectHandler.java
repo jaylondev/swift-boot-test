@@ -1,9 +1,9 @@
 package org.github.jaylondev.swift.boot.test.collect.handler;
 
 import lombok.extern.slf4j.Slf4j;
+import org.github.jaylondev.swift.boot.test.annotations.ModuleInfo;
 import org.github.jaylondev.swift.boot.test.collect.CollectContext;
 import org.github.jaylondev.swift.boot.test.collect.ICollectHandler;
-import org.github.jaylondev.swift.boot.test.config.Configurations;
 import org.github.jaylondev.swift.boot.test.utils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -45,7 +45,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
         // 单元测试类
         Class<?> testClass = collectContext.getTestClass();
         // 找到项目编译后/target目录下所有的class，便于收集某个interface的所有实现类
-        this.initTargetAllClasses(testClass.getClassLoader());
+        this.initTargetAllClasses(testClass);
         // 遍历类收集器中所有的类，递归收集类中所有通过@AutoWired引用的类
         injectClassList.forEach(this::collectionClass);
         // 将收集到的class放入类收集容器中
@@ -125,57 +125,62 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
     /**
      * 找到/tartget目录下所有的class，便于收集某个interface的所有实现类
      */
-    private void initTargetAllClasses(ClassLoader classLoader) {
-       List<String> modules = this.getModuleNameList(classLoader);
-       try {
-           for (String classPathItem : modules) {
-               File tartetPath = new File(classPathItem).getParentFile();
-               File classPathFile = new File(tartetPath, "classes");
-               if (!classPathFile.exists()) {
-                   continue;
-               }
-               String classPathStr = classPathFile.toString();
-               Files.walkFileTree(classPathFile.toPath(), new SimpleFileVisitor<Path>() {
-                   @Override
-                   public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                       if (file.getFileName().toString().endsWith(".class")) {
-                           String str = file.toString()
-                                   .replace(classPathStr, "")
-                                   .replace(".class", "")
-                                   .replace("\\", ".");
-                           try {
-                               Class<?> clz = Class.forName(str.substring(1));
-                               allTargetClasses.add(clz);
-                           } catch (Exception e) {
-                               log.warn("[SwiftBootTest] load class {} fail exception:", str.substring(1), e);
-                           }
-                       }
-                       return FileVisitResult.CONTINUE;
-                   }
-               });
-           }
-       } catch (Exception e) {
+    private void initTargetAllClasses(Class<?> testClass) {
+
+        List<String> modules = this.getModuleNameList(testClass);
+        try {
+            for (String classPathItem : modules) {
+                File tartetPath = new File(classPathItem).getParentFile();
+                File classPathFile = new File(tartetPath, "classes");
+                if (!classPathFile.exists()) {
+                    continue;
+                }
+                String classPathStr = classPathFile.toString();
+                Files.walkFileTree(classPathFile.toPath(), new SimpleFileVisitor<Path>() {
+                    @Override
+                    public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
+                        if (file.getFileName().toString().endsWith(".class")) {
+                            String str = file.toString()
+                                    .replace(classPathStr, "")
+                                    .replace(".class", "")
+                                    .replace("\\", ".");
+                            try {
+                                Class<?> clz = Class.forName(str.substring(1));
+                                allTargetClasses.add(clz);
+                            } catch (Exception e) {
+                                log.warn("[SwiftBootTest] load class {} fail exception:", str.substring(1), e);
+                            }
+                        }
+                        return FileVisitResult.CONTINUE;
+                    }
+                });
+            }
+        } catch (Exception e) {
             log.warn("[SwiftBootTest] modules read error exception:", e);
-       }
+        }
     }
 
     /**
      * 获取所有的module全路径名
      */
-    private List<String> getModuleNameList(ClassLoader classLoader) {
-        // 应用启动类所在的module名
-        String currentModule = Configurations.getInstance().getModuleName();
-        // 应用启动类所在的module全路径
+    private List<String> getModuleNameList(Class<?> testClass) {
+        ModuleInfo moduleInfo = testClass.getAnnotation(ModuleInfo.class);
+        String testModule = null;
+        String[] relateModules = null;
+        if (moduleInfo != null) {
+            // 单元测试类所在的module名
+            testModule = moduleInfo.testModule();
+            // 关联的其他module
+            relateModules = moduleInfo.relateModules();
+        }
+        ClassLoader classLoader = testClass.getClassLoader();
+        //单元测试类class所在的包全路径
         String testClassPath = Objects.requireNonNull(classLoader.getResource("")).getFile();
         List<String> modules = new ArrayList<>();
         modules.add(testClassPath);
-        String relateModules = Configurations.getInstance().getDependencyModules();
-        if (!StringUtils.isEmpty(relateModules)) {
-            String[] relateModuleArray = relateModules.split(",");
-            if (relateModuleArray.length > 0) {
-                for (String relateModule : relateModuleArray) {
-                    modules.add(testClassPath.replace(currentModule, relateModule));
-                }
+        if (!StringUtils.isEmpty(testModule) && relateModules != null && relateModules.length > 0) {
+            for (String relateModule : relateModules) {
+                modules.add(testClassPath.replace(testModule, relateModule));
             }
         }
         return modules.stream()

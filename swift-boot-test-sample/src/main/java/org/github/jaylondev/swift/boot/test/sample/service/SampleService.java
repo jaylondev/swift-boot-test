@@ -1,5 +1,6 @@
 package org.github.jaylondev.swift.boot.test.sample.service;
 
+import org.github.jaylondev.swift.boot.test.sample.core.CoreServiceA;
 import org.github.jaylondev.swift.boot.test.sample.dao.SampleRepositoryA;
 import org.github.jaylondev.swift.boot.test.sample.dto.resp.SampleResp;
 import org.github.jaylondev.swift.boot.test.sample.service.biz.BizServiceA;
@@ -25,6 +26,8 @@ public class SampleService {
     private BizServiceC bizServiceC;
     @Autowired
     private SampleRepositoryA repositoryA;
+    @Autowired
+    private CoreServiceA coreServiceA;
 
 
     public SampleResp sampleGet(String reqStr) {
@@ -34,6 +37,8 @@ public class SampleService {
         bizServiceB.serviceB();
         // 修改数据库
         repositoryA.update();
+        // 执行核心服务A
+        coreServiceA.coreServiceA();
         return this.buildSuccess(reqStr);
     }
 

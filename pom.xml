@@ -12,6 +12,7 @@
     <modules>
         <module>swift-boot-test-core</module>
         <module>swift-boot-test-sample</module>
+        <module>swift-boot-test-sample-core</module>
     </modules>
 
     <dependencyManagement>
