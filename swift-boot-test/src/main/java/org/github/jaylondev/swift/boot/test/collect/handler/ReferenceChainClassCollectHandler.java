@@ -10,6 +10,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.nio.file.FileVisitResult;
@@ -53,8 +54,8 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
     }
 
     public void collectionClass(Class<?> clazz) {
-        if (clazz.isInterface()) {
-            // 收集接口类
+        if (clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers())) {
+            // 收集接口或抽象类
             this.collectionInterfaceClass(clazz);
         } else {
             // 收集实现类

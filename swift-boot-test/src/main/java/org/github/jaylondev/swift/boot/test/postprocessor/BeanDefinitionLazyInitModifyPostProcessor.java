@@ -54,7 +54,7 @@ public class BeanDefinitionLazyInitModifyPostProcessor implements BeanDefinition
         try {
             beanDefinition = ((DefaultListableBeanFactory) registry).getMergedBeanDefinition(beanName);
         } catch (Exception e) {
-            log.warn("[SwiftBootTest] beanDefinition get faild! beanName:{} exception:", beanName, e);
+            log.warn("[SwiftBootTest] beanDefinition get faild! beanName:{}", beanName);
         }
         return beanDefinition;
     }
