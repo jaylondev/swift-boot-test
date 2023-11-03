@@ -5,7 +5,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.github.jaylondev</groupId>
+    <groupId>io.github.jaylondev</groupId>
     <artifactId>swift-boot-test</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
