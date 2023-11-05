@@ -8,7 +8,29 @@
     <groupId>io.github.jaylondev</groupId>
     <artifactId>swift-boot-test</artifactId>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
+
+    <name>swift-boot-test</name>
+    <description>SpringBoot单元测试快速启动工具</description>
+    <url>https://github.com/jaylondev/swift-boot-test</url>
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+    <scm>
+        <url>https://github.com/jaylondev/swift-boot-test</url>
+        <connection>scm:git:https://github.com/jaylondev/swift-boot-test.git</connection>
+        <developerConnection>scm:git:git@github.com:jaylondev/swift-boot-test.git</developerConnection>
+    </scm>
+    <developers>
+        <developer>
+            <id>jaylondev</id>
+            <name>jaylondev</name>
+            <email>nobug@88.com</email>
+        </developer>
+    </developers>
 
 
     <properties>
@@ -80,6 +102,22 @@
                         <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>

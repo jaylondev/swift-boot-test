@@ -10,6 +10,8 @@ public class ClassCollectService {
 
     /**
      * 收集启动单元测试需要在容器中装载的class
+     * @param collectContext 上下文对象
+     * @return 收集结果集合
      */
     public static Set<Class<?>> collect(CollectContext collectContext) {
         List<ICollectHandler> handlerList = getSubHandlerSortedList();
