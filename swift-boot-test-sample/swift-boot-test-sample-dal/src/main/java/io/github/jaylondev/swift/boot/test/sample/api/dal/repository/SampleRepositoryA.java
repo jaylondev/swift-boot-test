@@ -1,6 +1,7 @@
 package io.github.jaylondev.swift.boot.test.sample.api.dal.repository;
 
-import io.github.jaylondev.swift.boot.test.sample.api.dal.mapper.SampleMapperA;
+import io.github.jaylondev.swift.boot.test.sample.api.dal.entity.SampleOrders;
+import io.github.jaylondev.swift.boot.test.sample.api.dal.mapper.SampleOrdersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -10,10 +11,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class SampleRepositoryA {
 
-    @Autowired(required = false)
-    private SampleMapperA mapperA;
+    @Autowired
+    private SampleOrdersMapper sampleOrdersMapper;
 
-    public int update() {
-        return mapperA.update();
+    public int insertOne(SampleOrders orders) {
+        if (orders == null) {
+            return 0;
+        }
+        return sampleOrdersMapper.insert(orders);
     }
 }

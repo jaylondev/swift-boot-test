@@ -18,7 +18,7 @@ public class SampleController {
 
     @GetMapping("/sample")
     @ResponseBody
-    public SampleResp sampleGet(String reqStr) {
-        return sampleService.sampleGet(reqStr);
+    public SampleResp sampleGet(String skuName) {
+        return sampleService.sampleGet(skuName);
     }
 }
