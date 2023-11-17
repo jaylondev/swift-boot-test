@@ -3,12 +3,10 @@ package io.github.jaylondev.swift.boot.test.annotations.listenner;
 import com.alibaba.druid.pool.DruidDataSource;
 import io.github.jaylondev.swift.boot.test.annotations.DbTest;
 import io.github.jaylondev.swift.boot.test.annotations.DbTestEnvironment;
-import io.github.jaylondev.swift.boot.test.config.MyBatisConfiguration;
 import io.github.jaylondev.swift.boot.test.config.SwiftBootTestConfig;
 import org.apache.ibatis.logging.slf4j.Slf4jImpl;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -21,14 +19,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author jaylon 2023/11/15 17:05
@@ -125,17 +119,6 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
 
     private boolean isEnableDbTest(TestContext testContext) {
         return testContext.getTestMethod().isAnnotationPresent(DbTest.class);
-    }
-
-    private Class<MyBatisConfiguration> buildMyBatisConfigurationClass(String[] mapperScanBasePackages) throws Exception {
-        Class<MyBatisConfiguration> myBatisConfigurationClass = MyBatisConfiguration.class;
-        MapperScan mapperScan = myBatisConfigurationClass.getAnnotation(MapperScan.class);
-        InvocationHandler h = Proxy.getInvocationHandler(mapperScan);
-        Field hField = h.getClass().getDeclaredField("memberValues");
-        hField.setAccessible(true);
-        Map memberValues = (Map) hField.get(h);
-        memberValues.put("basePackages", mapperScanBasePackages);
-        return myBatisConfigurationClass;
     }
 
     public DataSource dataSource() {
