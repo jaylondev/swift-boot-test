@@ -1,6 +1,7 @@
 package io.github.jaylondev.swift.boot.test.sample.api.base;
 
 import io.github.jaylondev.swift.boot.test.SupperSwiftBootTest;
+import io.github.jaylondev.swift.boot.test.annotations.DbTestEnvironment;
 import io.github.jaylondev.swift.boot.test.annotations.IncludeComponent;
 import io.github.jaylondev.swift.boot.test.annotations.ModuleInfo;
 import io.github.jaylondev.swift.boot.test.sample.api.utils.SpringContextUtils;
@@ -14,5 +15,9 @@ import org.springframework.test.context.TestPropertySource;
 @EnableConfigurationProperties
 @IncludeComponent({SpringContextUtils.class})
 @ModuleInfo(testModule = "swift-boot-test-sample-api", relateModules = {"swift-boot-test-sample-dal"})
+@DbTestEnvironment(
+        mapperScanBasePackages = "io.github.jaylondev.swift.boot.test.sample.api.dal.mapper",
+        mapperXmlLocation = "classpath:mapper/*.xml"
+)
 public class BaseTest extends SupperSwiftBootTest {
 }

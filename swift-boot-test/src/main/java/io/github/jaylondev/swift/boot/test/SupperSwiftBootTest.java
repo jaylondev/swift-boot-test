@@ -1,6 +1,6 @@
 package io.github.jaylondev.swift.boot.test;
 
-import io.github.jaylondev.swift.boot.test.annotations.listener.DbTestExecutionListener;
+import io.github.jaylondev.swift.boot.test.annotations.listenner.DbTestExecutionListener;
 import io.github.jaylondev.swift.boot.test.core.SwiftBootTestBootstrapper;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
