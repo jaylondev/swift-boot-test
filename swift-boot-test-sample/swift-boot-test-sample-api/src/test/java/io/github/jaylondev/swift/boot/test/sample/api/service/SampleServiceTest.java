@@ -23,7 +23,7 @@ public class SampleServiceTest extends BaseTest {
     private SampleRepositoryA sampleRepositoryA;
 
     @Test
-    @DbTest(sqlFile = "/db/sample_orders_create_ddl.sql")
+    @DbTest(sqlFile = "/sql/sample_orders_create_ddl.sql")
     public void testSampleGet() {
         // run test
         SampleResp sampleResp = sampleService.sampleGet("test");

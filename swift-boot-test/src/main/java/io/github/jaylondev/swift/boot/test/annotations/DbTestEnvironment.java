@@ -14,7 +14,7 @@ public @interface DbTestEnvironment {
      * mapper包路径
      * @return mapper包路径
      */
-    String[] mapperScanBasePackages() default {};
+    String[] mapperBasePackages() default {};
     /**
      * mapper.xml文件路径
      * @return mapper.xml文件路径

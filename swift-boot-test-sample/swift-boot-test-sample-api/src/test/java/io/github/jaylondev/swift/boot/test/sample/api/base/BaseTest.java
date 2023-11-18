@@ -16,7 +16,7 @@ import org.springframework.test.context.TestPropertySource;
 @IncludeComponent({SpringContextUtils.class})
 @ModuleInfo(testModule = "swift-boot-test-sample-api", relateModules = {"swift-boot-test-sample-dal"})
 @DbTestEnvironment(
-        mapperScanBasePackages = "io.github.jaylondev.swift.boot.test.sample.api.dal.mapper",
+        mapperBasePackages = "io.github.jaylondev.swift.boot.test.sample.api.dal.mapper",
         mapperXmlLocation = "classpath:mapper/*.xml"
 )
 public class BaseTest extends SupperSwiftBootTest {
