@@ -71,10 +71,6 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
         beanFactory.registerSingleton(DbTestEnvironmentConfig.BEAN_NAME_TRANSACTIONTEMPLATE, transactionTemplate);
     }
 
-
-
-
-
     private boolean isEnableDbTest(TestContext testContext) {
         return testContext.getTestMethod().isAnnotationPresent(DbTest.class);
     }
