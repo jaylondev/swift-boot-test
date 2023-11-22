@@ -5,8 +5,8 @@ import io.github.jaylondev.swift.boot.test.annotations.SwiftBootTest;
 import io.github.jaylondev.swift.boot.test.sample.api.base.BaseTest;
 import io.github.jaylondev.swift.boot.test.sample.api.dal.repository.SampleRepositoryA;
 import io.github.jaylondev.swift.boot.test.sample.api.dto.resp.SampleResp;
-import io.github.jaylondev.swift.boot.test.sample.api.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +27,7 @@ public class SampleServiceTest extends BaseTest {
     public void testSampleGet() {
         // run test
         SampleResp sampleResp = sampleService.sampleGet("test");
-        log.info("[测试结果]:{}", JsonUtils.toJson(sampleResp));
+        Assert.assertEquals(200, (int) sampleResp.getCode());
     }
 
 }
