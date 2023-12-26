@@ -32,7 +32,7 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
 
     private void enableDbEnvironment(TestContext testContext) throws Exception {
         DbTestEnvironmentConfig dbconfig = DbTestEnvironmentConfig.checkAndBuildDbEnvironmentConfig(testContext);
-        DbTestEnvironmentFactory dbFactory = DbTestEnvironmentFactory.getInstance(dbconfig);
+        DbTestEnvironmentFactory dbFactory = DbTestEnvironmentFactory.from(dbconfig);
         this.registerDbBean(testContext, dbFactory);
         this.registerMapperProxy(testContext, dbconfig, dbFactory);
     }

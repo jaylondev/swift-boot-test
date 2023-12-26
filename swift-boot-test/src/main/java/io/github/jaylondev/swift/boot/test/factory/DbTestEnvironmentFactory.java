@@ -31,7 +31,7 @@ public class DbTestEnvironmentFactory {
 
     private DbTestEnvironmentFactory() {};
 
-    public static DbTestEnvironmentFactory getInstance(DbTestEnvironmentConfig dbConfig) {
+    public static DbTestEnvironmentFactory from(DbTestEnvironmentConfig dbConfig) {
         if (instance == null) {
             instance = new DbTestEnvironmentFactory();
             instance.config = dbConfig;
