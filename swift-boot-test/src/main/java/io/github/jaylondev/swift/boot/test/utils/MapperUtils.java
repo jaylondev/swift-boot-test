@@ -3,16 +3,17 @@ package io.github.jaylondev.swift.boot.test.utils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jaylon 2023/11/18 16:04
  */
 public class MapperUtils {
 
-    public static List<Object> createMapperProxy(String[] basePackages, ClassLoader classLoader, SqlSessionFactory sqlSessionFactory) throws Exception {
-        List<Object> proxys = new ArrayList<>();
+    public static Map<String, Object> createMapperProxy(String[] basePackages, ClassLoader classLoader, SqlSessionFactory sqlSessionFactory) throws Exception {
+        Map<String, Object> proxysMap = new HashMap<>();
         // 扫描mapper类
         List<Class<?>> mapperClasses = ClassUtils.scanPackages(basePackages, classLoader);
         // 创建 Mapper 接口的代理对象并注册到容器中
@@ -22,9 +23,9 @@ public class MapperUtils {
             mapperFactoryBean.setSqlSessionFactory(sqlSessionFactory);
             Object mapperObject = mapperFactoryBean.getObject();
             if (mapperObject != null) {
-                proxys.add(mapperObject);
+                proxysMap.put(mapperClass.getSimpleName(), mapperObject);
             }
         }
-        return proxys;
+        return proxysMap;
     }
 }

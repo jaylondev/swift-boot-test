@@ -5,6 +5,7 @@ import io.github.jaylondev.swift.boot.test.annotations.SwiftBootTest;
 import io.github.jaylondev.swift.boot.test.config.DbTestEnvironmentConfig;
 import io.github.jaylondev.swift.boot.test.factory.DbTestEnvironmentFactory;
 import io.github.jaylondev.swift.boot.test.utils.MapperUtils;
+import io.github.jaylondev.swift.boot.test.utils.StringUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,7 +15,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -43,9 +44,11 @@ public class DbTestExecutionListener extends AbstractTestExecutionListener {
         ClassLoader classLoader = this.getClassLoader(testContext);
         String[] basePackages = dbconfig.getMapperScanBasePackages();
         SqlSessionFactory sqlSessionFactory = dbFactory.createSqlSessionFactory();
-        List<Object> mapperProxys = MapperUtils.createMapperProxy(basePackages, classLoader, sqlSessionFactory);
-        // 注册 Mapper 接口代理对象到容器中
-        mapperProxys.forEach(mapperProxy -> beanFactory.registerSingleton(mapperProxy.getClass().getSimpleName(), mapperProxy));
+        Map<String, Object> mapperProxyMap = MapperUtils.createMapperProxy(basePackages, classLoader, sqlSessionFactory);
+        for (String className : mapperProxyMap.keySet()) {
+            // 注册 Mapper 接口代理对象到容器中
+            beanFactory.registerSingleton(StringUtils.firstLetterToLowercase(className), mapperProxyMap.get(className));
+        }
     }
 
     private ClassLoader getClassLoader(TestContext testContext) {
