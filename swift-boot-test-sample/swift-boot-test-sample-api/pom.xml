@@ -30,7 +30,7 @@
         <dependency>
             <groupId>io.github.jaylondev</groupId>
             <artifactId>swift-boot-test</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${swift-boot-test.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
