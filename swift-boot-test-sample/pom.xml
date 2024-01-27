@@ -60,7 +60,7 @@
         <lombok.version>1.18.20</lombok.version>
         <spring-boot.version>2.2.2.RELEASE</spring-boot.version>
         <commons.beanutils>1.9.4</commons.beanutils>
-        <swift-boot-test-version>1.0.3</swift-boot-test-version>
+        <swift-boot-test-version>2.0.0-SNAPSHOT</swift-boot-test-version>
     </properties>
 
 </project>
