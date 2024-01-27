@@ -151,7 +151,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
                             String str = file.toString()
                                     .replace(classPathStr, "")
                                     .replace(".class", "")
-                                    .replace("\\", ".");
+                                    .replace(File.separator, ".");
                             try {
                                 Class<?> clz = Class.forName(str.substring(1));
                                 allTargetClasses.add(clz);
