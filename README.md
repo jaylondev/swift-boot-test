@@ -1,3 +1,9 @@
+<h1 align="center" style="border:none;">SwiftBootTest</h1>
+
+![Stable Version](https://img.shields.io/badge/stable_version-2.0.0-brightgreen.svg) ![image](https://img.shields.io/badge/License-Apache%202.0-lightblue) ![Language](https://img.shields.io/badge/language-Java-orange.svg) ![Spring Boot](https://img.shields.io/badge/framework-Spring_Boot-yellowgreen.svg) ![MyBatis](https://img.shields.io/badge/persistence-MyBatis-blue.svg) ![Build](https://img.shields.io/badge/build-Maven-yellow.svg)
+
+***
+
 # Overview
 
 SwiftBootTest（简称SBT）是一个旨在提高Spring Boot单元测试和集成测试执行效率的实用组件。通过SBT，你可以快速执行测试代码而无需启动完整的Spring Boot容器。SBT会自动扫描并加载当前测试所需的类到容器中，从而排除不必要的依赖和初始化过程。这样一来，你既能享受容器上下文的便利，又能避免启动整个工程所带来的时间、内存消耗以及外部环境依赖。
