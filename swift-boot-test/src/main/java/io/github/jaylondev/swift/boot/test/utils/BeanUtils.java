@@ -5,9 +5,12 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.beans.PropertyDescriptor;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -61,4 +64,6 @@ public class BeanUtils {
             throw new RuntimeException("字段默认值设置出现异常", e);
         }
     }
+
+
 }

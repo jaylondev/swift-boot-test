@@ -26,4 +26,5 @@ public class ConfigClassCollectHandler implements ICollectHandler {
     public int getOrder() {
         return 1;
     }
+
 }

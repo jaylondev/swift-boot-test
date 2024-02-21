@@ -89,7 +89,14 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
                 Type genericType = field.getGenericType();
                 if (genericType instanceof ParameterizedType) {
                     ParameterizedType pt = (ParameterizedType) genericType;
-                    clazz = (Class<?>) pt.getActualTypeArguments()[0];
+                    Type actualTypeArgument = pt.getActualTypeArguments()[0];
+                    // 支持list中对象带泛型List<A<B>>
+                    if (actualTypeArgument instanceof ParameterizedType) {
+                        ParameterizedType innerPt = (ParameterizedType) actualTypeArgument;
+                        clazz = (Class<?>) innerPt.getRawType();
+                    } else {
+                        clazz = (Class<?>) actualTypeArgument;
+                    }
                     this.collectionClass(clazz);
                 }
             } catch (Exception e) {
@@ -144,7 +151,7 @@ public class ReferenceChainClassCollectHandler implements ICollectHandler {
                             String str = file.toString()
                                     .replace(classPathStr, "")
                                     .replace(".class", "")
-                                    .replace("\\", ".");
+                                    .replace(File.separator, ".");
                             try {
                                 Class<?> clz = Class.forName(str.substring(1));
                                 allTargetClasses.add(clz);

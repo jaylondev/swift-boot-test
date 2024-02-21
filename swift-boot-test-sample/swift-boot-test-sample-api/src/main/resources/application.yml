@@ -8,3 +8,10 @@ spring:
       charset: UTF-8
       enable: true
       force: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: jay1on
+    password: ${db.password}
+    url: jdbc:mysql://mysql.sqlpub.com:3306/jaylondev?useUnicode=true&characterEncoding=utf8
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

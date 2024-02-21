@@ -1,5 +1,6 @@
 package io.github.jaylondev.swift.boot.test.sample.api.service;
 
+import io.github.jaylondev.swift.boot.test.sample.api.dal.entity.SampleOrders;
 import io.github.jaylondev.swift.boot.test.sample.api.dal.repository.SampleRepositoryA;
 import io.github.jaylondev.swift.boot.test.sample.api.dto.resp.SampleResp;
 import io.github.jaylondev.swift.boot.test.sample.api.service.biz.BizServiceA;
@@ -27,22 +28,23 @@ public class SampleService {
     private SampleRepositoryA repositoryA;
 
 
-    public SampleResp sampleGet(String reqStr) {
+    public SampleResp sampleGet(String skuName) {
         // 执行业务服务A
         bizServiceA.serviceA();
         // 执行业务服务B
         bizServiceB.serviceB();
         // 执行业务服务C
         bizServiceC.serviceC();
-        // 修改数据库
-        repositoryA.update();
-        return this.buildSuccess(reqStr);
+        // 写入数据库
+        SampleOrders orders = new SampleOrders(skuName);
+        repositoryA.insertOne(orders);
+        return this.buildSuccess(skuName);
     }
 
-    private SampleResp buildSuccess(String reqStr) {
+    private SampleResp buildSuccess(String skuName) {
         return SampleResp.builder()
                 .code(SUCCESS_CODE)
-                .message(SUCCESS_MESSAGE + ":" + reqStr)
+                .message(SUCCESS_MESSAGE + ":订单-" + skuName + " 已创建")
                 .build();
     }
 }

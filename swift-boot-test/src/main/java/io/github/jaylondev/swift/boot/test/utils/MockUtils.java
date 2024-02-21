@@ -5,6 +5,7 @@ import io.github.jaylondev.swift.boot.test.exception.SwiftBootTestException;
 import org.mockito.mock.MockCreationSettings;
 import org.springframework.test.util.AopTestUtils;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Constructor;
@@ -52,18 +53,17 @@ public class MockUtils {
     }
 
     public static void mock(Object targetBean, Object mockBean) {
-        Field[] declaredFields = AopTestUtils.getUltimateTargetObject(targetBean).getClass().getDeclaredFields();
+        // mock替身类的真实类型
         String mockTypeName = getTypeName(mockBean);
         if (StringUtils.isEmpty(mockTypeName)) {
             throw new SwiftBootTestException("需要mock的bean类型获取失败，请尝试替换为Mockutils.mock(Object target, String fieldName, Object mock)方法进行mock");
         }
-        for (Field declaredField : declaredFields) {
-            String fieldTypeName = declaredField.getType().getTypeName();
+        ReflectionUtils.doWithFields(targetBean.getClass(), field -> {
+            String fieldTypeName = field.getType().getTypeName();
             if (Objects.equals(fieldTypeName, mockTypeName)) {
-                ReflectionTestUtils.setField(targetBean, declaredField.getName(), mockBean);
-                return;
+                ReflectionTestUtils.setField(targetBean, field.getName(), mockBean);
             }
-        }
+        });
     }
 
     private static String getTypeName(Object mockBean) {
