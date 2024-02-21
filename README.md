@@ -228,16 +228,17 @@ public class SampleServiceTest extends BaseTest {
 *   ps：为什么需要标记测试类所在的module和其关联module？
     > 为了应对如下场景：SBT在搜集当前测试需要注册到容器中的类时，如果被@AutoWired注解引用的对象是一个接口，则会到本地的/target/classes目录下去扫描该接口的所有实现类，并注册到容器中。如果实现类在其他module中，测试类所在module的/target目录下就无法找到此实现类，所以需要通过此注解标记module信息，方便SBT到其他module的target文件中找到接口的所有实现类。
 *   ps2：测试类所在module与项目中其他module不在同一层级应该怎么配置？
+
     `假设工程结构如下，测试类在module：sample-test中`
 
-    > ——sample-api
-    > ——sample-dal
-    > ——sample-core
-    > ——support-dev
-    > ————sample-test
-    > ——————src
-    > ————————test
-    > ——————————com.jaylondev.test1.class
+     ——sample-api<br/>
+     ——sample-dal<br/>
+     ——sample-core<br/>
+     ——support-dev<br/>
+     ————sample-test<br/>
+     ——————src<br/>
+     ————————test<br/>
+     ——————————com.jaylondev.test1.class
 
     `在这样的项目结构中,@ModuleInfo正确配置如下`
 
