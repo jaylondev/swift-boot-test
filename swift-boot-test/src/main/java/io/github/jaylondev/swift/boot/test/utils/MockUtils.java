@@ -1,15 +1,13 @@
 package io.github.jaylondev.swift.boot.test.utils;
 
-import lombok.extern.slf4j.Slf4j;
 import io.github.jaylondev.swift.boot.test.exception.SwiftBootTestException;
+import lombok.extern.slf4j.Slf4j;
 import org.mockito.mock.MockCreationSettings;
-import org.springframework.test.util.AopTestUtils;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -35,6 +33,7 @@ public class MockUtils {
         if (mockitoMockUtilClazz != null) {
             try {
                 mockitoMockUtilConstructor = mockitoMockUtilClazz.getDeclaredConstructor();
+                mockitoMockUtilConstructor.setAccessible(true);
             } catch (NoSuchMethodException e) {
                 log.info("[SwiftBootTest] - {} maybe a static class", CLASS_NAME_MOCKUTIL);
             }
