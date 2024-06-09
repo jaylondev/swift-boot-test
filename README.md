@@ -1,6 +1,12 @@
+<h1 align="center" style="border:none;">SwiftBootTest</h1>
+
+![Stable Version](https://img.shields.io/badge/stable_version-2.0.0-brightgreen.svg) ![image](https://img.shields.io/badge/License-Apache%202.0-lightblue) ![Language](https://img.shields.io/badge/language-Java-orange.svg) ![Spring Boot](https://img.shields.io/badge/framework-Spring_Boot-yellowgreen.svg) ![MyBatis](https://img.shields.io/badge/persistence-MyBatis-blue.svg) ![Build](https://img.shields.io/badge/build-Maven-yellow.svg)
+
+***
+
 # Overview
 
-SwiftBootTest（简称SBT）是一个旨在提高Spring Boot单元测试和集成测试执行效率的实用组件。通过SBT，你可以快速执行测试代码而无需启动完整的Spring Boot容器。SBT会自动扫描并加载当前测试所需的类到容器中，从而排除不必要的依赖和初始化过程。这样一来，你既能享受容器上下文的便利，又能避免启动整个工程所带来的时间、内存消耗以及外部环境依赖。
+SwiftBootTest（SBT）是一个用于提升SpringBoot单元测试代码编写和执行效率的实用组件。使用SBT执行单元测试时，SBT会自动扫描并加载本次测试所需的类到Spring上下文容器中，排除其他非必要的依赖和初始化。使我们在编写测试代码时，既能享受IOC容器管理对象的便利，避免编写侵入性代码，同时又能避免完整启动整个工程带来的时间、性能消耗及外部环境依赖的影响。
 
 # Features
 
@@ -222,16 +228,17 @@ public class SampleServiceTest extends BaseTest {
 *   ps：为什么需要标记测试类所在的module和其关联module？
     > 为了应对如下场景：SBT在搜集当前测试需要注册到容器中的类时，如果被@AutoWired注解引用的对象是一个接口，则会到本地的/target/classes目录下去扫描该接口的所有实现类，并注册到容器中。如果实现类在其他module中，测试类所在module的/target目录下就无法找到此实现类，所以需要通过此注解标记module信息，方便SBT到其他module的target文件中找到接口的所有实现类。
 *   ps2：测试类所在module与项目中其他module不在同一层级应该怎么配置？
+
     `假设工程结构如下，测试类在module：sample-test中`
 
-    > ——sample-api
-    > ——sample-dal
-    > ——sample-core
-    > ——support-dev
-    > ————sample-test
-    > ——————src
-    > ————————test
-    > ——————————com.jaylondev.test1.class
+     ——sample-api<br/>
+     ——sample-dal<br/>
+     ——sample-core<br/>
+     ——support-dev<br/>
+     ————sample-test<br/>
+     ——————src<br/>
+     ————————test<br/>
+     ——————————com.jaylondev.test1.class
 
     `在这样的项目结构中,@ModuleInfo正确配置如下`
 
