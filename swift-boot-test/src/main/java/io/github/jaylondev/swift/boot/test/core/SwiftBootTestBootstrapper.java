@@ -1,18 +1,5 @@
 package io.github.jaylondev.swift.boot.test.core;
 
-import com.alibaba.druid.pool.DruidDataSource;
-import io.github.jaylondev.swift.boot.test.annotations.DbTest;
-import io.github.jaylondev.swift.boot.test.annotations.DbTestEnvironment;
-import javassist.CannotCompileException;
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.NotFoundException;
-import javassist.bytecode.AnnotationsAttribute;
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.ConstPool;
-import javassist.bytecode.annotation.ArrayMemberValue;
-import javassist.bytecode.annotation.StringMemberValue;
-import lombok.SneakyThrows;
 import io.github.jaylondev.swift.boot.test.annotations.SwiftBootTest;
 import io.github.jaylondev.swift.boot.test.collect.ClassCollectService;
 import io.github.jaylondev.swift.boot.test.collect.CollectContext;
@@ -20,28 +7,21 @@ import io.github.jaylondev.swift.boot.test.constants.TestClassContainer;
 import io.github.jaylondev.swift.boot.test.exception.SwiftBootTestException;
 import io.github.jaylondev.swift.boot.test.utils.BeanUtils;
 import io.github.jaylondev.swift.boot.test.utils.JavasistUtils;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.TestTemplateInvocationContext;
-import org.junit.jupiter.api.extension.TestTemplateInvocationContextProvider;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.test.context.MergedContextConfiguration;
-import org.springframework.test.context.TestContext;
 import org.springframework.test.context.web.WebTestContextBootstrapper;
-import org.springframework.transaction.support.TransactionTemplate;
 
-import java.io.IOException;
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class SwiftBootTestBootstrapper extends WebTestContextBootstrapper {
 
