@@ -7,8 +7,10 @@ import org.springframework.util.ReflectionUtils;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author jaylon 2023/9/12 22:49
@@ -62,5 +64,14 @@ public class BeanUtils {
         }
     }
 
+    public static boolean isInterface(Class<?> clazz) {
+        return clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers());
+    }
+
+    public static List<Field> getfieldsIncludeSuperNonNull(Class<?> clazz) {
+        return getFieldIncludeSuper(clazz).stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
 
 }
