@@ -28,7 +28,7 @@ public class BeanUtils {
         Field[] declaredFields = clz.getDeclaredFields();
         List<Field> list = new ArrayList<>(Arrays.asList(declaredFields));
         Class<?> superclass = clz.getSuperclass();
-        if (superclass != Object.class) {
+        if (superclass != null && superclass != Object.class) {
             List<Field> fields = getFieldIncludeSuper(superclass);
             list.addAll(fields);
         }

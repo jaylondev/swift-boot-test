@@ -82,7 +82,13 @@ public class SpyMockTest {
         if (clazz == null) {
             return true;
         }
+        if (BeanUtils.isInterface(clazz)) {
+            return true;
+        }
         if (completeMockClasses.contains(clazz)) {
+            return true;
+        }
+        if (ignoreClasses.contains(clazz)) {
             return true;
         }
         for (String suffix : ignoreClassesSuffixs) {
